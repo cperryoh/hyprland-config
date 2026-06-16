@@ -14,12 +14,13 @@ startup_commands_list = {
 	"wl-paste --type image --watch cliphist store",
 	"sleep 2 && cliphist wipe &",
 	"python ~/scripts/open_rgb_script.py >> ~/logs.txt",
-	"wayvnc -r -C ~/.config/wayvnc/config -o DP-1 0.0.0.0 5900 > /tmp/wayvnc-hypr.log 2>&1",
+	"wayvnc -r -C ~/.config/wayvnc/config -o DP-2 0.0.0.0 5900 > /tmp/wayvnc-hypr.log 2>&1",
 	'tmux setenv -g HYPRLAND_INSTANCE_SIGNATURE "$HYPRLAND_INSTANCE_SIGNATURE"',
 	"hyprland-qtutils",
 	"kvantummanager --set KvYaru-PurpleDark",
 	"hyprctl dispatch workspace 1",
 	"systemctl --user restart hyprpolkitagent sunshine.service",
+  "meto-qt",
 	"hyprpm reload -n",
 }
 hl.on("hyprland.start", function()

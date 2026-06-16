@@ -1,15 +1,14 @@
 -- Force the engine to suppress runtime/type error bars on the screen
 local colors= require("colors")
-my_config={}
+local my_config={}
 my_config.debug = {
-        suppress_errors = true
     }
 my_config.plugin = {
     hy3 = {
         tabs = {
             height = 22,
             padding = 6,
-            radius = 6,
+            radius = 3,
             border_width = 3,
             render_text = true,
             text_center = true,
@@ -53,7 +52,6 @@ my_config.general = {
         inactive_border = colors.color5,
     },
     -- Lock screen and sleep commands
-    lock_cmd = "pidof hyprlock || hyprlock",
 }
 
 -- Cursor configuration
@@ -63,7 +61,7 @@ my_config.cursor = {
 
 -- Decoration settings
 my_config.decoration = {
-    rounding = 20,
+    rounding = 10,
     rounding_power = 2,
     dim_special = 0.6,
     dim_inactive = true,
@@ -150,6 +148,10 @@ my_config.device = {
     },
     {
         name = "Logitech PRO 2 MOUSE",
+
+
+
+
     },
 }
 
@@ -187,12 +189,15 @@ my_config.layerrule = {
         no_anim = "on",
     },
 }
-
+hl.workspace_rule({ workspace = "w[tv1]s[false]", gaps_out = 0, gaps_in = 0 })
+hl.workspace_rule({ workspace = "f[1]s[false]", gaps_out = 0, gaps_in = 0 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, border_size = 0 })
+hl.window_rule({ match = { float = false, workspace = "w[tv1]s[false]" }, rounding = 0 })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, border_size = 0 })
+hl.window_rule({ match = { float = false, workspace = "f[1]s[false]" }, rounding = 0 })
 -- Load modular configurations
-
 hl.config(my_config)
-require("startup")
 require("windowrules")
 require("keybinds")
 require("environment")
-require("monitors")
+require("startup")
