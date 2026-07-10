@@ -70,3 +70,23 @@ hl.window_rule({
     size = { 1, 1 },
     opacity = 0.0,
 })
+hl.window_rule({name="Azeron minimzed", match={class="^(Azeron Software)$"},workspace="special:azeron silent"})
+hl.on("window.title", function(w)
+    if w ~= nil and w.title:match("LastPass") then
+        -- Float first
+        hl.dispatch(hl.dsp.window.float({ action = "set", window = w }))
+        
+        -- Block and wait for the window to settle
+        os.execute("sleep 0.01")
+        
+        -- Now move it
+        local cursor = hl.get_cursor_pos()
+        local window_w = w.size.x
+        local window_h = w.size.y
+        
+        local x = cursor.x - (window_w * 0.5)
+        local y = cursor.y - (window_h * 0.5)
+        
+        hl.dispatch(hl.dsp.window.move({ x = x, y = y, window = w }))
+    end
+end)

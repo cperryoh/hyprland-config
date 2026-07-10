@@ -13,7 +13,7 @@ local ipc = "qs -c noctalia-shell ipc call"
 -- Core Applications
 hl.bind(mainMod .. " + q", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + w", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call wallpaper toggle"))
-hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("zen-browser --new-window:Data https://google.com"))
+hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("librewolf --new-window:Data https://google.com"))
 hl.bind(mainMod .. " + " .. shift .. " + S", hl.dsp.exec_cmd("spotify"))
 hl.bind(mainMod .. " + " .. shift .. " + g", hl.dsp.exec_cmd("~/scripts/gym_activity.py"))
 
@@ -21,7 +21,7 @@ hl.bind(mainMod .. " + " .. shift .. " + g", hl.dsp.exec_cmd("~/scripts/gym_acti
 hl.bind(
 	mainMod .. " + e",
 	hl.dsp.exec_cmd(
-		"zen-browser https://gmail.com https://moodle.rose-hulman.edu/my/index.php https://outlook.office.com/mail/"
+		"librewolf https://gmail.com https://moodle.rose-hulman.edu/my/index.php https://outlook.office.com/mail/"
 	)
 )
 
@@ -68,7 +68,6 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- ===== SYSTEM CONTROL KEYBINDS =====
 hl.bind(mainMod .. " + m", hl.dsp.exit())
-hl.bind(mainMod .. " + " .. shift .. " + h", hl.dsp.exec_cmd(ipc .. " idleInhibitor toggle"))
 hl.bind(alt .. " + " .. shift .. " + S", hl.dsp.exec_cmd("systemctl suspend"))
 hl.bind(alt .. " + " .. shift .. " + R", hl.dsp.exec_cmd("python ~/scripts/open_rgb_script.py"))
 
@@ -95,7 +94,7 @@ hl.bind(
 hl.bind(
 	mainMod .. " + " .. shift .. " + 2",
 	hl.dsp.exec_cmd(
-		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m DP-2 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\''
+		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m HDMI-A-1 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\''
 	)
 )
 
@@ -131,60 +130,30 @@ hl.bind(mainMod .. " + d", hl.dsp.exec_cmd("~/.config/rofi/scripts/disconnect_de
 hl.bind(mainMod .. " + f", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind(mainMod .. " + " .. shift .. " + f", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + c", hl.dsp.window.close())
-hl.bind(mainMod .." + "..shift.. " + c", hl.dsp.window.kill())
+hl.bind(mainMod .. " + " .. shift .. " + c", hl.dsp.window.kill())
 
 -- Window Cycling
 hl.bind(alt .. " + TAB", hl.dsp.window.cycle_next())
 
 -- Focus Movement (vim keys + arrows)
-local hy3 = hl.plugin.hy3
-hl.bind(mainMod .. " + h", hy3.move_focus("l"))
-hl.bind(mainMod .. " + J", hy3.move_focus("d"))
-hl.bind(mainMod .. " + K", hy3.move_focus("u"))
-hl.bind(mainMod .. " + l", hy3.move_focus("r"))
-hl.bind(mainMod .. " + left", hy3.move_focus("l"))
-hl.bind(mainMod .. " + right", hy3.move_focus("r"))
-hl.bind(mainMod .. " + up", hy3.move_focus("u"))
-hl.bind(mainMod .. " + down", hy3.move_focus("d"))
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
 
 -- Window Moving (alt+vim keys)
-hl.bind(alt .. " + H", hy3.move_window("l"))
-hl.bind(alt .. " + J", hy3.move_window("d"))
-hl.bind(alt .. " + K", hy3.move_window("u"))
-hl.bind(alt .. " + L", hy3.move_window("r"))
+hl.bind(alt .. " + H", hl.dsp.window.move({ direction = "l" }))
+hl.bind(alt .. " + J", hl.dsp.window.move({ direction = "d" }))
+hl.bind(alt .. " + K", hl.dsp.window.move({ direction = "u" }))
+hl.bind(alt .. " + L", hl.dsp.window.move({ direction = "r" }))
 
 -- Group Management (hy3 plugin)
-hl.bind(alt .. " + G", hy3.make_group("tab"))
-hl.bind(alt .. " + N", hy3.make_group("h"))
-hl.bind(alt .. " + V", hy3.make_group("v"))
-hl.bind(alt .. " + X", hy3.change_group("opposite"))
-hl.bind(alt .. " + T", hy3.focus_tab({ index = 1, wrap = true }))
-hl.bind(alt .. " + o", hy3.change_focus("raise"))
-hl.bind(alt .. " + u", hy3.change_focus("lower"))
-hl.bind(alt .. " + R", hy3.equalize({ scope = "workspace" }))
-local function safeMove(workspace)
-	return function()
-		local win = hl.get_active_window()
-		if not win then
-			hl.dispatch(hy3.move_to_workspace(workspace, { follow = true }))
-			return
-		end
-		local was_fullscreen = win.fullscreen == true or win.fullscreen == 1 or win.fullscreen == 2
-		hl.dispatch(hl.dsp.window.fullscreen({ action = "unset" }))
-		hl.dispatch(hy3.move_to_workspace(workspace, { follow = true }))
-		if was_fullscreen then
-			hl.dispatch(hl.dsp.window.fullscreen({ action = "set" }))
-		end
-	end
-end
 
+hl.bind(mainMod .. " + " .. shift .. " + H", hl.dsp.exec_cmd("bash /home/cperryoh/git/scripts/toggle_caffine.sh"))
 -- Workspace Switching within Groups
-hl.bind(alt .. " + " .. shift .. " + H", safeMove("e+1"))
-hl.bind(alt .. " + " .. shift .. " + L", safeMove("e-1"))
+hl.bind(alt .. " + " .. shift .. " + H", hl.dsp.window.move({ workspace = "e-1" }))
+hl.bind(alt .. " + " .. shift .. " + L", hl.dsp.window.move({ workspace = "e+1" }))
 -- ===== RESIZE MODE =====
-
--- Switch to a submap called `resize`.
-hl.bind("ALT + R", hl.dsp.submap("resize"))
 
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
@@ -210,9 +179,12 @@ hl.bind("SUPER + S", hl.dsp.workspace.toggle_special("magic"))
 
 -- Move Windows to Workspaces (Alt + Numbers)
 for i = 1, 9 do
-	hl.bind(alt .. " + " .. tostring(i), safeMove(tostring(i)))
+	hl.bind(alt .. " + " .. i, hl.dsp.window.move({ workspace = i, follow = true }))
 end
-hl.bind(alt .. " + 0", hy3.move_to_workspace("10", { follow = true }))
-hl.bind(alt .. " + S", hy3.move_to_workspace("special:magic", { follow = true }))
+hl.bind(alt .. " + 0", hl.dsp.window.move({ workspace = "10", follow = true }))
+hl.bind(alt .. " + S", hl.dsp.window.move({ workspace = "special:magic", follow = true }))
+hl.bind(mainMod .. " + X", hl.dsp.workspace.toggle_special("azeron"))
+hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
+hl.bind(mainMod .. " + comma", hl.dsp.layout("swapcol l"))
 
 -- Workspace Scrolling (Super + Mouse Wheel)

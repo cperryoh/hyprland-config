@@ -3,36 +3,6 @@ local colors= require("colors")
 local my_config={}
 my_config.debug = {
     }
-my_config.plugin = {
-    hy3 = {
-        tabs = {
-            height = 22,
-            padding = 6,
-            radius = 3,
-            border_width = 3,
-            render_text = true,
-            text_center = true,
-            text_font = "Sans",
-            text_height = 12,
-            blur = true,
-            opacity = 1.0,
-            colors = {
-                active = colors.color12_tab,
-                active_border = colors.color12_tab_border,
-                active_text = colors.foreground_tab_text,
-                active_alt_monitor = colors.color5_tab,
-                active_alt_monitor_border = colors.color5_tab_border,
-                active_alt_monitor_text = colors.foreground_tab_text,
-                focused = colors.color3_tab,
-                focused_border = colors.color3_tab_border,
-                focused_text = colors.foreground_tab_text,
-                inactive = colors.background_tab,
-                inactive_border = colors.color6_tab_border,
-                inactive_text = colors.color7_tab_text,
-            },
-        },
-    },
-}
 -- Hyprland Lua Configuration
 -- Converted from Hyprlang to Lua
 
@@ -43,7 +13,7 @@ mainMod = "SUPER"
 
 -- General configuration
 my_config.general = {
-    layout="hy3",
+    layout="master",
     gaps_in = 5,
     gaps_out = 10,
     border_size = 3,
@@ -88,6 +58,13 @@ my_config.animations={
         enabled = true
 }
 
+-- The correct Lua configuration syntax for options
+hl.config({
+    misc = {
+        mouse_move_enables_dpms = false,
+        key_press_enables_dpms = false
+    }
+})
 -- 2. Register your Bezier Curves
 hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1}, {0.32, 1} } })
 hl.curve("easeInOutCubic", { type = "bezier", points = { {0.65, 0.05}, {0.36, 1} } })
