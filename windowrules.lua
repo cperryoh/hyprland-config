@@ -1,3 +1,5 @@
+local logger = require("logger")
+logger.log("BEGIN LOAD WINDOW RULES")
 -- Monitor and Workspace Configuration
 
 -- Monitor setup
@@ -18,7 +20,7 @@ hl.monitor({
 })
 hl.monitor({
 	output = "HDMI-A-1",
-	mode = "2560x1440@144",
+	mode = "2560x1440@60",
 	position = "-2560x0",
 })
 
@@ -26,7 +28,6 @@ hl.monitor({
 hl.config({ xwayland = {
 	force_zero_scaling = true,
 } })
-
 -- Workspace assignments to monitors
 -- Note: Workspace IDs are wrapped in quotes as strings to match docs
 workspaces = {
@@ -49,10 +50,15 @@ hl.layer_rule({
 	name = "noctalia",
 	match = { namespace = "noctalia-background-.*$" },
 	ignore_alpha = 0.5,
+  order=2,
 	blur = true,
 	blur_popups = true,
 })
-
+hl.window_rule({
+  match={class="(Azeron Software)"},
+  workspace="special:azeron",
+  no_initial_focus=true
+})
 for _, item in ipairs(workspaces) do
 	hl.workspace_rule(item)
 end
@@ -70,23 +76,5 @@ hl.window_rule({
     size = { 1, 1 },
     opacity = 0.0,
 })
-hl.window_rule({name="Azeron minimzed", match={class="^(Azeron Software)$"},workspace="special:azeron silent"})
-hl.on("window.title", function(w)
-    if w ~= nil and w.title:match("LastPass") then
-        -- Float first
-        hl.dispatch(hl.dsp.window.float({ action = "set", window = w }))
-        
-        -- Block and wait for the window to settle
-        os.execute("sleep 0.01")
-        
-        -- Now move it
-        local cursor = hl.get_cursor_pos()
-        local window_w = w.size.x
-        local window_h = w.size.y
-        
-        local x = cursor.x - (window_w * 0.5)
-        local y = cursor.y - (window_h * 0.5)
-        
-        hl.dispatch(hl.dsp.window.move({ x = x, y = y, window = w }))
-    end
-end)
+-- Span gamescope across the left Dell and your center main monitor
+logger.log("DONE LOAD WINDOW RULES")

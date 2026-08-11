@@ -1,3 +1,5 @@
+local logger = require("logger")
+logger.log("BEGIN LOAD KEYBINDS")
 -- Hyprland Keybindings Configuration (Corrected)
 -- Properly formatted to match official hl.bind() API
 
@@ -14,7 +16,7 @@ local ipc = "qs -c noctalia-shell ipc call"
 hl.bind(mainMod .. " + q", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + w", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call wallpaper toggle"))
 hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("librewolf --new-window:Data https://google.com"))
-hl.bind(mainMod .. " + " .. shift .. " + S", hl.dsp.exec_cmd("spotify"))
+hl.bind(mainMod .. " + " .. shift .. " + S", hl.dsp.exec_cmd("systemctl suspend"))
 hl.bind(mainMod .. " + " .. shift .. " + g", hl.dsp.exec_cmd("~/scripts/gym_activity.py"))
 
 -- Specialized Launches
@@ -88,18 +90,18 @@ hl.bind(
 hl.bind(
 	mainMod .. " + " .. shift .. " + 1",
 	hl.dsp.exec_cmd(
-		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m DP-1 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\''
+		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m DP-2 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\';'
 	)
 )
 hl.bind(
 	mainMod .. " + " .. shift .. " + 2",
 	hl.dsp.exec_cmd(
-		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m HDMI-A-1 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\''
+		'sh -c \'f=~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png; hyprshot -m output -m HDMI-A-1 -o ~/Pictures/Screenshots -f "$(basename "$f")" && wl-copy --type image/png < "$f"\';'
 	)
 )
 
 -- Clipboard
-hl.bind(mainMod .. " + " .. shift .. " + V", hl.dsp.exec_cmd(ns .. " ipc call launcher clipboard"))
+hl.bind(mainMod .. " + " .. shift .. " + V", hl.dsp.exec_cmd(ipc.." launcher clipboard"))
 
 -- Fun/Visual Tools
 hl.bind(mainMod .. " + " .. shift .. " + b", hl.dsp.exec_cmd("kitty bonsai.sh -l -t .04 -i --life 30"))
@@ -154,14 +156,14 @@ hl.bind(mainMod .. " + " .. shift .. " + H", hl.dsp.exec_cmd("bash /home/cperryo
 hl.bind(alt .. " + " .. shift .. " + H", hl.dsp.window.move({ workspace = "e-1" }))
 hl.bind(alt .. " + " .. shift .. " + L", hl.dsp.window.move({ workspace = "e+1" }))
 -- ===== RESIZE MODE =====
-
+hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
 	-- Set repeating binds for resizing the active window.
-	hl.bind("right", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
-	hl.bind("left", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
-	hl.bind("up", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
-	hl.bind("down", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
+	hl.bind("l", hl.dsp.window.resize({ x = 20, y = 0, relative = true }), { repeating = true })
+	hl.bind("h", hl.dsp.window.resize({ x = -20, y = 0, relative = true }), { repeating = true })
+	hl.bind("k", hl.dsp.window.resize({ x = 0, y = 20, relative = true }), { repeating = true })
+	hl.bind("j", hl.dsp.window.resize({ x = 0, y = -20, relative = true }), { repeating = true })
 
 	-- Use `reset` to go back to the global submap
 	hl.bind("escape", hl.dsp.submap("reset"))
@@ -188,3 +190,4 @@ hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
 hl.bind(mainMod .. " + comma", hl.dsp.layout("swapcol l"))
 
 -- Workspace Scrolling (Super + Mouse Wheel)
+logger.log("END LOAD KEYBINDS")
