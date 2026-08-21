@@ -6,16 +6,14 @@ logger.log("BEGIN LOAD KEYBINDS")
 -- Main modifier definitions
 local mainMod = "SUPER"
 local alt = "ALT"
-local ns = "qs -c noctalia-shell"
 local shift = "SHIFT"
 local ctrl = "CTRL"
-local ipc = "qs -c noctalia-shell ipc call"
 
 -- ===== APPLICATION LAUNCHER KEYBINDS =====
 -- Core Applications
 hl.bind(mainMod .. " + q", hl.dsp.exec_cmd("alacritty"))
 hl.bind(mainMod .. " + " .. ctrl .. " + SPACE",hl.dsp.exec_cmd("xdg-open vicinae://launch/core/search-emojis"))
-hl.bind(mainMod .. " + w", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call wallpaper toggle"))
+hl.bind(mainMod .. " + w", hl.dsp.exec_cmd("noctalia msg panel-toggle wallpaper"))
 hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("librewolf --new-window:Data https://google.com"))
 hl.bind(mainMod .. " + " .. shift .. " + S", hl.dsp.exec_cmd("systemctl suspend"))
 hl.bind(mainMod .. " + " .. shift .. " + g", hl.dsp.exec_cmd("~/scripts/gym_activity.py"))
@@ -29,7 +27,7 @@ hl.bind(
 )
 
 -- Launchers & Menus
-hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call launcher toggle"))
+hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("noctalia msg panel-toggle launcher"))
 
 hl.bind(mainMod.." + "..shift.." + a",hl.dsp.exec_cmd("~/git/scripts/azeron_reboot.sh"))
 
@@ -64,9 +62,9 @@ hl.bind("xf86monbrightnessup", hl.dsp.exec_cmd("brightnessctl s 10%+"))
 hl.bind("xf86monbrightnessdown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { repeating = true })
 
 -- Media Controls
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. " volume increase"))
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. " volume decrease"))
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. " volume muteOutput"))
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up 10"))
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down 10"))
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("noctalia msg volume-mute"))
 
 -- ===== MOUSE CONTROLS =====
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
@@ -105,7 +103,7 @@ hl.bind(
 )
 
 -- Clipboard
-hl.bind(mainMod .. " + " .. shift .. " + V", hl.dsp.exec_cmd(ipc.." launcher clipboard"))
+hl.bind(mainMod .. " + " .. shift .. " + V", hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
 
 -- Fun/Visual Tools
 hl.bind(mainMod .. " + " .. shift .. " + b", hl.dsp.exec_cmd("alacritty bonsai.sh -l -t .04 -i --life 30"))
@@ -116,15 +114,16 @@ hl.bind(mainMod .. " + " .. shift .. " + o", hl.dsp.exec_cmd("openrgb --profile 
 
 -- System Menus
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/rofi/applets/bin/volume.sh"))
-hl.bind(mainMod .. " + p", hl.dsp.exec_cmd(ns .. " ipc call sessionMenu toggle"))
+hl.bind(mainMod .. " + p", hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 
 -- Special Keys
 hl.bind("END", hl.dsp.exec_cmd("ydotool key home"))
 
 -- Additional media keys
-hl.bind(mainMod .. " + z", hl.dsp.exec_cmd(ns .. " ipc call media playPause"))
-hl.bind(mainMod .. " + n", hl.dsp.exec_cmd(ns .. " ipc call media next"))
-hl.bind(mainMod .. " + " .. shift .. " + n", hl.dsp.exec_cmd(ns .. " ipc call media previous"))
+hl.bind(mainMod .. " + z", hl.dsp.exec_cmd("noctalia msg media toggle"))
+hl.bind(mainMod .. " + n", hl.dsp.exec_cmd("noctalia msg media next-player"))
+
+hl.bind(mainMod .. " + " .. shift .. " + n", hl.dsp.exec_cmd("noctalia msg media previous"))
 hl.bind(
 	mainMod .. " + a",
 	hl.dsp.exec_cmd("vicinae 'vicinae://launch/@rastsislaux/store.vicinae.pulseaudio/outputDevices' > ~/vicinae.txt")
