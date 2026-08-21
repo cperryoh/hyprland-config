@@ -3,15 +3,17 @@ logger.log("BEGIN LOAD STARTUP")
 
 startup_commands_list = {
 --  "hyprpaper",
+	"noctalia",
+  "sleep 1 && qs -c noctalia-shell ipc call lockScreen lock",
 	"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
 	"vicinae server",
 	"hypridle",
+	'input-remapper-control --preset main --command start --device "SONIX Galaxy70"',
 	'input-remapper-control --preset main --command start --device "BY Tech Gaming Keyboard"',
 	'/usr/bin/input-remapper-control --preset main --command start --device "Logitech PRO 2 MOUSE"',
 	"solaar --window=hide",
 	"kdeconnect-indicator",
 	"wal --theme dkeg-branch",
-	"qs -c noctalia-shell",
   --"waybar",
 	"wl-paste --type text --watch cliphist store",
 	"wl-paste --type image --watch cliphist store",

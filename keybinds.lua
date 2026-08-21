@@ -13,7 +13,8 @@ local ipc = "qs -c noctalia-shell ipc call"
 
 -- ===== APPLICATION LAUNCHER KEYBINDS =====
 -- Core Applications
-hl.bind(mainMod .. " + q", hl.dsp.exec_cmd("kitty"))
+hl.bind(mainMod .. " + q", hl.dsp.exec_cmd("alacritty"))
+hl.bind(mainMod .. " + " .. ctrl .. " + SPACE",hl.dsp.exec_cmd("xdg-open vicinae://launch/core/search-emojis"))
 hl.bind(mainMod .. " + w", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call wallpaper toggle"))
 hl.bind(mainMod .. " + b", hl.dsp.exec_cmd("librewolf --new-window:Data https://google.com"))
 hl.bind(mainMod .. " + " .. shift .. " + S", hl.dsp.exec_cmd("systemctl suspend"))
@@ -29,7 +30,8 @@ hl.bind(
 
 -- Launchers & Menus
 hl.bind(mainMod .. " + space", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call launcher toggle"))
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("~/scripts/quick_links.sh"))
+
+hl.bind(mainMod.." + "..shift.." + a",hl.dsp.exec_cmd("~/git/scripts/azeron_reboot.sh"))
 
 -- ===== HARDWARE KEY BINDINGS (Volume, Brightness, Media) =====
 -- Volume Controls
@@ -49,11 +51,13 @@ hl.bind(
 )
 hl.bind(
 	"XF86AudioMute",
-	hl.dsp.exec_cmd(
-		'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && paplay /usr/share/sounds/freedesktop/stereo/complete.oga & quickshell msg "volume-update"'
-	)
+	hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'),
+	{
+		locked = true,    -- Works even when screen is locked
+		repeatable = false -- Prevents rapid firing/toggling while held
+	}
 )
-hl.bind("xf86audiomicmute", hl.dsp.exec_cmd("wpctl set-mute @default_audio_source@ toggle"))
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @default_audio_source@ toggle"))
 
 -- Brightness Controls
 hl.bind("xf86monbrightnessup", hl.dsp.exec_cmd("brightnessctl s 10%+"))
@@ -104,7 +108,7 @@ hl.bind(
 hl.bind(mainMod .. " + " .. shift .. " + V", hl.dsp.exec_cmd(ipc.." launcher clipboard"))
 
 -- Fun/Visual Tools
-hl.bind(mainMod .. " + " .. shift .. " + b", hl.dsp.exec_cmd("kitty bonsai.sh -l -t .04 -i --life 30"))
+hl.bind(mainMod .. " + " .. shift .. " + b", hl.dsp.exec_cmd("alacritty bonsai.sh -l -t .04 -i --life 30"))
 hl.bind(mainMod .. " + " .. shift .. " + L", hl.dsp.exec_cmd("hyprloc"))
 
 -- Hardware Control

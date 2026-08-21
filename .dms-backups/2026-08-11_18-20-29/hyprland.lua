@@ -15,6 +15,7 @@ mainMod = "SUPER"
 
 -- General configuration
 my_config.general = {
+    layout="master",
     gaps_in = 5,
     gaps_out = 10,
     border_size = 3,
@@ -179,3 +180,6 @@ require("windowrules")
 require("keybinds")
 require("environment")
 require("startup")
+require("dms.colors")
+require("dms.layout")
+require("dms.outputs")
